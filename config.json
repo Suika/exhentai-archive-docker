@@ -1,0 +1,36 @@
+{
+    "base": {
+        "accessKey": "${EX_ACCESSKEY}",
+        "archiveDir": "${EX_ARCHDIR}",
+        "autoReadPercentage": ${EX_READPERCENTAGE},
+        "cookie": {
+            "hath_perks": "${EX_HATHPERKS}",
+            "ipb_member_id": "${EX_MEMBERID}",
+            "ipb_pass_hash": "${EX_PASSHASH}",
+            "sk": "${EX_SK}",
+            "sp": "${EX_SP}"
+        },
+        "imagesDir": "${EX_IMGDIR}",
+        "tempDir": "${EX_TEMPDIR}",
+        "viewType": "${EX_VIEWTYPE}"
+    },
+    "default": {
+        "db": {
+            "dsn": "mysql:host=${DB_HOST};dbname=${DB_NAME}",
+            "pass": "${DB_PASS}",
+            "user": "${DB_USER}"
+        },
+        "indexer": {
+            "full": "sudo indexer --rotate galleries suggested"
+        },
+        "memcache": {
+            "host": "${MEMCACHED_HOST}",
+            "port": ${MEMCACHED_PORT}
+        },
+        "sphinxql": {
+            "dsn": "mysql:host=${SPHINX_HOST};port=${SPHINX_PORT};dbname=${SPHINX_NAME}",
+            "pass": "${SPHINX_PASS}",
+            "user": "${SPHINX_USER}"
+        }
+    }
+}
