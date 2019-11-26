@@ -61,6 +61,7 @@ ENV DB_HOST=mariadb \
     MEMCACHED_PORT=11211 \
     SUPERVISOR_PORT=9001 \
     NGINX_PORT=80 \
-    DOLLAR='$'
+    DOLLAR='$' \
+    TZ=Europe/London
 
 VOLUME /var/www/exhen/images /var/www/exhen/archive /var/www/exhen/temp /var/lib/sphinxsearch/data/exhen

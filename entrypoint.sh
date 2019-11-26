@@ -7,5 +7,7 @@ envsubst < /nginx.conf > /etc/nginx/nginx.conf
 
 echo "Rotating All Sphinx Indexes"
 /usr/bin/indexer --rotate --all
+chown sphinxsearch:sphinxsearch -R /var/lib/sphinxsearch/data
+
 
 supervisord -c /etc/supervisord.conf
