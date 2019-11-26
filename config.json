@@ -21,7 +21,7 @@
             "user": "${DB_USER}"
         },
         "indexer": {
-            "full": "sudo indexer --rotate galleries suggested"
+            "full": "indexer --rotate galleries suggested"
         },
         "memcache": {
             "host": "${MEMCACHED_HOST}",

@@ -1,5 +1,8 @@
 FROM debian:8
 ENTRYPOINT [ "bash", "/entrypoint.sh" ]
+HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
+  CMD wget --quiet --tries=1 --no-check-certificate --spider \
+  http://localhost:${NGINX_PORT} || exit 1
 WORKDIR /var/www/exhen
 
 RUN apt-get update && \
@@ -27,6 +30,7 @@ RUN apt-get update && \
     gettext-base \
     wget \
     supervisor && rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /var/www/exhen/{images,tmp,archive} && chown www-data:www-data -R /var/www/exhen && \
     wget http://sphinxsearch.com/files/sphinxsearch_2.2.11-release-1~jessie_amd64.deb -O /tmp/sphinxsearch.deb && \
     dpkg -i /tmp/sphinxsearch.deb && rm /tmp/sphinxsearch.deb && \
     mkdir -p /var/lib/sphinxsearch/data/exhen && chown sphinxsearch:sphinxsearch -R /var/lib/sphinxsearch/data
@@ -64,4 +68,4 @@ ENV DB_HOST=mariadb \
     DOLLAR='$' \
     TZ=Europe/London
 
-VOLUME /var/www/exhen/images /var/www/exhen/archive /var/www/exhen/temp /var/lib/sphinxsearch/data/exhen
+VOLUME /var/www/exhen/images /var/www/exhen/archive /var/www/exhen/tmp /var/lib/sphinxsearch/data/exhen

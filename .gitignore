@@ -108,8 +108,6 @@ ENV/
 *.mp4
 *.webm
 
-# Metadata
-*.json
 
 # Logs
 *.log
