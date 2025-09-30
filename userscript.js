@@ -88,35 +88,36 @@ $('div.itg').each(function() { //gallery search
         gids.push(gid);
 
         galleryContainer.data('gid', gid);
+        setTimeout(function(){
+            $.getJSON(baseUrl + 'api.php', { action: 'hasgallery', gid: gid, key: key }, function(data, result) {
+                if (!data.data.exists) {
+                    var link = createArchiveLink(gid, token, true);
+                    link.css({ fontSize: '9px' });
+                    galleryContainer.css({background: 'darkcyan'});
+                    link.on('click', function() {
+                        galleryContainer.css({ background: 'green' });
+                    });
 
-        $.getJSON(baseUrl + 'api.php', { action: 'hasgallery', gid: gid, key: key }, function(data, result) {
-           if (!data.data.exists) {
-              var link = createArchiveLink(gid, token, true);
-              link.css({ fontSize: '9px' });
-              galleryContainer.css({background: 'darkcyan'});
-              link.on('click', function() {
-                  galleryContainer.css({ background: 'green' });
-              });
+                    link.appendTo(galleryContainer);
+                } else {
+                    //galleryContainer.remove(); //cleaning############################################################################################################################################
+                    var res = "";
+                    if (data.data.archived && data.data.deleted == 0) {
+                        galleryContainer.css({background: 'green'});
+                    }
 
-              link.appendTo(galleryContainer);
-           } else {
-             //galleryContainer.remove(); //cleaning############################################################################################################################################
-             var res = "";
-             if (data.data.archived && data.data.deleted == 0) {
-                galleryContainer.css({background: 'green'});
-             }
+                    if (!data.data.archived && data.data.exists) {
+                        galleryContainer.css({background: 'darkmagenta'});
+                        // galleryContainer.remove(); //cleaning
+                    }
 
-             if (!data.data.archived && data.data.exists) {
-                galleryContainer.css({background: 'darkmagenta'});
-                // galleryContainer.remove(); //cleaning
-             }
-
-             if (data.data.deleted >= 1) {
-               res = $('<div><p>Deleted</p></div>');
-               galleryContainer.css({background: '#AA0000'});
-             }
-             res.appendTo(galleryContainer);
-           }
-        });
+                    if (data.data.deleted >= 1) {
+                        res = $('<div><p>Deleted</p></div>');
+                        galleryContainer.css({background: '#AA0000'});
+                    }
+                    res.appendTo(galleryContainer);
+                }
+            });
+        }, 10);
     });
 });

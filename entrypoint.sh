@@ -3,9 +3,9 @@
 echo "Preparing config files"
 envsubst < /config.json | tee /var/www/exhen/config.json > /var/www/exhen/www/config.json
 envsubst < /sphinx.conf > /etc/sphinxsearch/sphinx.conf
-envsubst < /nginx.conf > /etc/nginx/nginx.conf
+cat /nginx.conf > /etc/nginx/nginx.conf
 
-echo "Rotating All Sphinx Indexes"
+echo "Rotating all Sphinx Indexes"
 /usr/bin/indexer --rotate --all
 
 echo "Fixing folder permissions"

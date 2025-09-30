@@ -1,9 +1,12 @@
-FROM debian:8
+# syntax=docker/dockerfile:1
+FROM debian/eol:jessie
 ENTRYPOINT [ "bash", "/entrypoint.sh" ]
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
   CMD wget --quiet --tries=1 --no-check-certificate --spider \
   http://localhost:${NGINX_PORT} || exit 1
 WORKDIR /var/www/exhen
+
+ADD --chown=www-data:www-data https://github.com/Suika/ExHentai-Archive.git /var/www/exhen/
 
 RUN apt-get update && \
     apt-get -y install \
@@ -30,15 +33,13 @@ RUN apt-get update && \
     gettext-base \
     wget \
     supervisor && rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /var/www/exhen/{images,tmp,archive} && chown www-data:www-data -R /var/www/exhen && \
+    mkdir -p /var/www/exhen/images /var/www/exhen/tmp /var/www/exhen/archive && chown www-data:www-data -R /var/www/exhen && \
     wget http://sphinxsearch.com/files/sphinxsearch_2.2.11-release-1~jessie_amd64.deb -O /tmp/sphinxsearch.deb && \
     dpkg -i /tmp/sphinxsearch.deb && rm /tmp/sphinxsearch.deb && \
     mkdir -p /var/lib/sphinxsearch/data/exhen && chown sphinxsearch:sphinxsearch -R /var/lib/sphinxsearch/data
 
-COPY --chown=www-data:www-data /exhen /var/www/exhen/
 COPY supervisord.conf /etc/supervisord.conf
 COPY entrypoint.sh config.json sphinx.conf nginx.conf /
-
 
 ENV DB_HOST=mariadb \
     DB_NAME=exhen \
@@ -52,7 +53,8 @@ ENV DB_HOST=mariadb \
     EX_VIEWTYPE=mpv \
     EX_MEMBERID=placehoder \
     EX_PASSHASH=placehoder \
-    EX_ACCESSKEY=UGAY \
+    EX_ACCESSKEY=UGANDA \
+    EX_IGNEOUS=placehoder \
     EX_SK=changeme \
     EX_SP=2 \
     EX_HATHPERKS=m1.m2.m3.tf.t1.t2.t3.p1.p2.s-210aa44613 \

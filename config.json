@@ -7,6 +7,7 @@
             "hath_perks": "${EX_HATHPERKS}",
             "ipb_member_id": "${EX_MEMBERID}",
             "ipb_pass_hash": "${EX_PASSHASH}",
+            "igneous": "${EX_IGNEOUS}",
             "sk": "${EX_SK}",
             "sp": "${EX_SP}"
         },

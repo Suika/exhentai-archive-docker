@@ -1,0 +1,35 @@
+ services:
+  exhen-db:
+    image: mariadb:10.3
+    container_name: exhen-db
+    command: [ '--wait_timeout=28800', ]
+    ports:
+      - 3306:3306
+    volumes:
+      - ./exhen-db:/var/lib/mysql
+    restart: always
+  exhen:
+    image: suika/exhentai-archive:latest
+    container_name: exhen
+    restart: unless-stopped
+    ports:
+      - 6767:6767
+    tmpfs:
+      - /var/www/exhen/tmp
+    volumes:
+      - ./exhen/sphinx:/var/lib/sphinxsearch/data/exhen
+      - ./exhen/images:/var/www/exhen/images
+      - ./exhen/archive:/var/www/exhen/archive
+    environment:
+      - DB_HOST=exh-db
+      - DB_NAME=exhen
+      - DB_USER=exhen
+      - DB_PASS=exhen
+      - EX_ACCESSKEY=UGANDA
+      - NGINX_PORT=6767
+      - EX_MEMBERID=you
+      - EX_PASSHASH=wish
+      - EX_IGNEOUS=suuuuure
+      - EX_SK=hah
+      - EX_SP=2
+      - TZ=Europe/London
